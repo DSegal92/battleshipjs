@@ -1,5 +1,65 @@
+html, body{
+  background-color: #145E8C;
+}
+
+.tableCell:hover {
+  width: 40px;
+  height: 40px;
+  margin: 10px 5px;
+  background-color: red; 
+}
+
 .tableCell {
   width: 40px;
   height: 40px;
-  background-color: green;
+  margin: 10px 5px;
+  background-color: #0476D9;;
+}
+
+.ship{
+  background-color: #A9A7A7;
+}
+
+.damaged_ship{
+  background-color: #F24949;
+}
+
+.bad_guess {
+  background-color: #F2B90C;
+}
+
+.gameBoard {
+  margin: 0 auto;
+}
+
+.header {
+  font-size: 50px;
+  color: #ffffff;
+  font-family: 'Teko', sans-serif;
+  text-align: center;
+}
+
+#legend {
+  font-family: 'Teko', sans-serif;
+  font-size: 50px;
+  line-height: 45px;
+  text-align: center;
+  margin: 50px auto;
+}
+
+#legend div {
+  display: inline-block;
+  margin: 0 30px;
+}
+
+#legend #ship {
+  color: #A9A7A7;
+}
+
+#legend #damaged {
+  color: #F24949;
+}
+
+#legend #bad_guess {
+  color: #F2B90C;
 }
