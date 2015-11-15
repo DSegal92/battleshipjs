@@ -1,37 +1,12 @@
 
 var Cell = React.createClass({
   handleHover: function(){
-    console.log(this.props.value)
-    this.props.onMouseEnter(this.props.x, this.props.y);
+    console.log(this.props.x + ',' + this.props.y)
   },
   render: function() {
-    var x = this.props.x;
-    var y = this.props.y;
-    var cellClass = 'tableCell'
-
-    if (this.props.value == 'ship') cellClass += ' ship'
-    else if (this.props.value == 'damaged_ship') cellClass += ' damaged_ship'
-    else if (this.props.value == 'bad_guess') cellClass += ' bad_guess'
-
-    return <div className={cellClass} onMouseEnter={this.handleHover}></div>;
+    return <td className="tableCell" onMouseEnter={this.handleHover}></td>;
   }
 });
-
-var BoardRow = React.createClass({
-  handleHover: function(x,y){
-    this.props.onMouseEnter(x,y);
-  },
-  render: function(){
-    var columns = this.props.columns
-    return (
-      <td>
-      { columns.map(function(object, i, index){
-        return <Cell value={object} key={i} x={this.props.x} y={arguments[1]} onMouseEnter={this.handleHover}/>
-      }, this)}
-    </td>
-    )
-  }
-})
 
 var Board = React.createClass({
   getInitialState: function(){
@@ -58,8 +33,8 @@ var Board = React.createClass({
     var boardY = this.props.boardY;
     return (
       <table className="gameBoard">
-        { this.state.data.map(function(object, i){
-          return <BoardRow key={i} x={arguments[1]} columns={object} onMouseEnter={this.test}/>
+        { this.state.data.map(function(currentValue, index, array){
+          return <tr> { currentValue.map(function(a,b,c){  return <Cell x={b} y={index} />  })} </tr>
         }, this)}
       </table>
     )
