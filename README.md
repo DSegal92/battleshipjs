@@ -7,7 +7,7 @@ programming project because it's a fairly simple game that maps well to a
 hierarchical method of problem solving, which I understand to also be one of
 React.js's strengths. Also, I'm pretty good at it.
 
-![Game Board]('https://github.com/DSegal92/battleshipjs/blob/master/assets/board.png')
+![Game Board](https://github.com/DSegal92/battleshipjs/blob/master/assets/board.png)
 
 #### What This Is
 * An experiment in implementing the game Battleship in React
