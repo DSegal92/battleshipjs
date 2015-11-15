@@ -1,16 +1,22 @@
 
 var Cell = React.createClass({
   handleHover: function(){
-    console.log(this.props.x + ',' + this.props.y)
+    this.props.onMouseEnter(this.props.x, this.props.y)
+  },
+  handleClick: function(){
+    this.props.onDoubleClick(this.props.x, this.props.y)
   },
   render: function() {
-    return <td className="tableCell" onMouseEnter={this.handleHover}></td>;
+    var cellClass = 'tableCell'
+    if (this.props.highlight == true) cellClass += ' highlight'
+
+    return <td className={cellClass} onMouseEnter={this.handleHover} onDoubleClick={this.handleClick}></td>;
   }
 });
 
 var Board = React.createClass({
   getInitialState: function(){
-    return { data: []};
+    return { data: [], highlights: [], orientation: 'horizontal'};
   },
   componentWillMount: function(){
     $.ajax({
@@ -25,16 +31,55 @@ var Board = React.createClass({
       }.bind(this)
     });
   },
-  test: function(x,y){
-    console.log(x + ',' + y)
+  updateOrientation: function(x,y){
+    if (this.state.orientation == 'horizontal'){
+      this.setState({ orientation: 'vertical'});
+    }
+    else {
+      this.setState({ orientation: 'horizontal'});
+    }
+  },
+  drawShip: function(x,y){
+    coordinates = this.buildShipPlacement(x,y,5)
+    this.setState({ highlights: coordinates})
+  },
+  buildShipPlacement: function(x,y,shipSize){
+    tempCords = []
+    if(this.state.orientation == 'horizontal'){
+      adjustment = this.props.boardSize - shipSize - x
+      if(adjustment > 0) adjustment = 0;
+        for(i = x+adjustment; i < x+shipSize; i++){
+          tempCords.push(i + ',' + y)
+      }
+    }
+    else {
+      adjustment = this.props.boardSize - shipSize - y
+      if(adjustment > 0) adjustment = 0;
+        for(i = y+adjustment; i < y+shipSize; i++){
+          tempCords.push(x + ',' + i)
+      }
+    }
+
+    return tempCords;
   },
   render: function(){
     var boardX = this.props.boardX;
     var boardY = this.props.boardY;
     return (
-      <table className="gameBoard">
+      <table className="gameBoard" >
         { this.state.data.map(function(currentValue, index, array){
-          return <tr> { currentValue.map(function(a,b,c){  return <Cell x={b} y={index} />  })} </tr>
+          return <tr key={index}> {
+            currentValue.map(function(a,b,c){
+              return <Cell
+                        highlight={this.state.highlights.indexOf(b + ',' + index) != -1}
+                        key={b+'-'+index}
+                        x={b}
+                        y={index}
+                        onMouseEnter={this.drawShip}
+                        onDoubleClick={this.updateOrientation}
+                    />
+            }, this)}
+          </tr>
         }, this)}
       </table>
     )
@@ -42,7 +87,6 @@ var Board = React.createClass({
 });
 
 React.render(<Board
-              boardX={[0,1,2,3,4,5,6,7,8,9]}
-              boardY={[0,1,2,3,4,5,6,7,8,9]}
+              boardSize={10}
               url= {'http://localhost:9292/board'} />, document.getElementById('game'));
 

@@ -9,6 +9,10 @@ html, body{
   background-color: red; 
 }
 
+.highlight {
+  background-color: yellow !important;
+}
+
 .tableCell {
   width: 40px;
   height: 40px;
